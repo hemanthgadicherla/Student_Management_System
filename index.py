@@ -17,6 +17,9 @@ Details of each student to be stored:
 """
 #creating data structure --> lists 
 #intialize empty list
+
+import streamlit as st
+
 students = []
 print("===== Student Management System =====")
 print("1. Add Student")
