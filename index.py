@@ -88,7 +88,7 @@ while True:
             if student[0] == update_id:
                 found = True
                 if update_det.lower() == 'name':
-                    new_name = input("Enter new Nmae: ")
+                    new_name = input("Enter new Name: ")
                     student[1] = new_name
                 elif update_det.lower() == "age":
                     new_age = input("Enter new Age: ")
