@@ -1,47 +1,118 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Student Management System</title>
+    <title>Student Management System</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        input { margin: 4px; }
+        table, th, td { border: 1px solid black; border-collapse: collapse; padding: 5px;}
+    </style>
 </head>
 <body>
 
 <h1>Student Management System</h1>
 
 <h3>Add Student</h3>
-<input id="id" placeholder="Student ID"><br>
-<input id="name" placeholder="Name"><br>
-<input id="age" placeholder="Age"><br>
-<input id="course" placeholder="Course"><br>
-<input id="marks" placeholder="Marks"><br>
+<input id="id" placeholder="ID">
+<input id="name" placeholder="Name">
+<input id="age" placeholder="Age">
+<input id="course" placeholder="Course">
+<input id="marks" placeholder="Marks">
+<button onclick="addStudent()">Add</button>
 
-<button onclick="addStudent()">Add Student</button>
+<hr>
+
+<h3>Search Student by Name</h3>
+<input id="search" placeholder="Enter name">
+<button onclick="searchStudent()">Search</button>
+
+<hr>
+
+<h3>Update Student (by ID)</h3>
+<input id="uid" placeholder="ID to Update">
+<input id="newName" placeholder="New Name">
+<input id="newAge" placeholder="New Age">
+<input id="newCourse" placeholder="New Course">
+<input id="newMarks" placeholder="New Marks">
+<button onclick="updateStudent()">Update</button>
+
+<hr>
+
+<h3>Delete Student (by ID)</h3>
+<input id="did" placeholder="ID to Delete">
+<button onclick="deleteStudent()">Delete</button>
+
+<hr>
 
 <h3>Students List</h3>
-<ul id="list"></ul>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th><th>Name</th><th>Age</th><th>Course</th><th>Marks</th>
+        </tr>
+    </thead>
+    <tbody id="table"></tbody>
+</table>
 
 <script>
-  const students = [];
+let students = [];
 
-  function addStudent() {
-      const id = document.getElementById("id").value;
-      const name = document.getElementById("name").value;
-      const age = document.getElementById("age").value;
-      const course = document.getElementById("course").value;
-      const marks = document.getElementById("marks").value;
+function render(list = students) {
+    table.innerHTML="";
+    list.forEach(s=>{
+        table.innerHTML += `
+            <tr>
+                <td>${s.id}</td>
+                <td>${s.name}</td>
+                <td>${s.age}</td>
+                <td>${s.course}</td>
+                <td>${s.marks}</td>
+            </tr>`;
+    });
+}
 
-      students.push({id, name, age, course, marks});
-      display();
-  }
+function addStudent(){
+    students.push({
+        id: id.value,
+        name: name.value,
+        age: age.value,
+        course: course.value,
+        marks: marks.value
+    });
 
-  function display() {
-      const list = document.getElementById("list");
-      list.innerHTML = "";
+    render();
+}
 
-      students.forEach(s => {
-          list.innerHTML +=
-            `<li>${s.id} | ${s.name} | ${s.age} | ${s.course} | ${s.marks}</li>`;
-      });
-  }
+function searchStudent(){
+    let q = search.value.toLowerCase();
+    let result = students.filter(
+        s => s.name.toLowerCase() === q
+    );
+
+    render(result);
+}
+
+function updateStudent(){
+    let u = uid.value;
+
+    students.forEach(s=>{
+        if(s.id === u){
+            if(newName.value) s.name = newName.value;
+            if(newAge.value) s.age = newAge.value;
+            if(newCourse.value) s.course = newCourse.value;
+            if(newMarks.value) s.marks = newMarks.value;
+        }
+    });
+
+    render();
+}
+
+function deleteStudent(){
+    let d = did.value;
+    students = students.filter(s => s.id !== d);
+
+    render();
+}
 </script>
 
 </body>
