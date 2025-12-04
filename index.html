@@ -3,117 +3,335 @@
 <head>
     <title>Student Management System</title>
     <style>
-        body { font-family: Arial; padding: 20px; }
-        input { margin: 4px; }
-        table, th, td { border: 1px solid black; border-collapse: collapse; padding: 5px;}
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f3f4f6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .wrapper {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            color: #111827;
+        }
+
+        .subtitle {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 20px;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 16px 18px;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+            margin-bottom: 18px;
+        }
+
+        .card h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 18px;
+            color: #111827;
+        }
+
+        label {
+            font-size: 13px;
+            color: #4b5563;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        input {
+            width: 100%;
+            padding: 7px 9px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            border: 1px solid #d1d5db;
+            outline: none;
+            font-size: 13px;
+        }
+
+        input:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.25);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 7px 14px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            margin-top: 4px;
+        }
+
+        .btn-primary {
+            background: #2563eb;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-danger {
+            background: #dc2626;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #b91c1c;
+        }
+
+        .btn-secondary {
+            background: #6b7280;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #4b5563;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 6px;
+            font-size: 13px;
+        }
+
+        th, td {
+            border: 1px solid #e5e7eb;
+            padding: 6px 8px;
+            text-align: left;
+        }
+
+        th {
+            background: #f9fafb;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        tr:nth-child(even) {
+            background: #f9fafb;
+        }
+
+        tr:hover {
+            background: #e5f0ff;
+        }
+
+        .tag {
+            display: inline-block;
+            margin-left: 6px;
+            padding: 1px 6px;
+            font-size: 10px;
+            border-radius: 999px;
+            background: #eff6ff;
+            color: #1d4ed8;
+        }
+
+        @media (max-width: 800px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
+<div class="wrapper">
+    <h1>Student Management System</h1>
+    <div class="subtitle">Add, view, search, update, and delete student records easily.</div>
 
-<h1>Student Management System</h1>
+    <div class="grid">
+        <!-- Left Column: Forms -->
+        <div>
+            <div class="card">
+                <h3>Add Student <span class="tag">Create</span></h3>
+                <label>Student ID</label>
+                <input id="id" placeholder="e.g. S101">
 
-<h3>Add Student</h3>
-<input id="id" placeholder="ID">
-<input id="name" placeholder="Name">
-<input id="age" placeholder="Age">
-<input id="course" placeholder="Course">
-<input id="marks" placeholder="Marks">
-<button onclick="addStudent()">Add</button>
+                <label>Name</label>
+                <input id="name" placeholder="e.g. John">
 
-<hr>
+                <label>Age</label>
+                <input id="age" placeholder="e.g. 20">
 
-<h3>Search Student by Name</h3>
-<input id="search" placeholder="Enter name">
-<button onclick="searchStudent()">Search</button>
+                <label>Course</label>
+                <input id="course" placeholder="e.g. B.Tech">
 
-<hr>
+                <label>Marks</label>
+                <input id="marks" placeholder="e.g. 85">
 
-<h3>Update Student (by ID)</h3>
-<input id="uid" placeholder="ID to Update">
-<input id="newName" placeholder="New Name">
-<input id="newAge" placeholder="New Age">
-<input id="newCourse" placeholder="New Course">
-<input id="newMarks" placeholder="New Marks">
-<button onclick="updateStudent()">Update</button>
+                <button class="btn btn-primary" onclick="addStudent()">Add Student</button>
+            </div>
 
-<hr>
+            <div class="card">
+                <h3>Update Student <span class="tag">By ID</span></h3>
+                <label>Student ID to Update</label>
+                <input id="uid" placeholder="Enter existing ID">
 
-<h3>Delete Student (by ID)</h3>
-<input id="did" placeholder="ID to Delete">
-<button onclick="deleteStudent()">Delete</button>
+                <label>New Name</label>
+                <input id="newName" placeholder="Leave blank to keep same">
 
-<hr>
+                <label>New Age</label>
+                <input id="newAge" placeholder="Leave blank to keep same">
 
-<h3>Students List</h3>
-<table>
-    <thead>
-        <tr>
-            <th>ID</th><th>Name</th><th>Age</th><th>Course</th><th>Marks</th>
-        </tr>
-    </thead>
-    <tbody id="table"></tbody>
-</table>
+                <label>New Course</label>
+                <input id="newCourse" placeholder="Leave blank to keep same">
+
+                <label>New Marks</label>
+                <input id="newMarks" placeholder="Leave blank to keep same">
+
+                <button class="btn btn-secondary" onclick="updateStudent()">Update Student</button>
+            </div>
+
+            <div class="card">
+                <h3>Delete Student <span class="tag">By ID</span></h3>
+                <label>Student ID to Delete</label>
+                <input id="did" placeholder="Enter ID to delete">
+
+                <button class="btn btn-danger" onclick="deleteStudent()">Delete Student</button>
+            </div>
+        </div>
+
+        <!-- Right Column: Search + Table -->
+        <div>
+            <div class="card">
+                <h3>Search Student <span class="tag">By Name</span></h3>
+                <label>Student Name</label>
+                <input id="search" placeholder="Enter exact name">
+
+                <button class="btn btn-primary" onclick="searchStudent()">Search</button>
+                <button class="btn btn-secondary" onclick="render()">Show All</button>
+            </div>
+
+            <div class="card">
+                <h3>Students List</h3>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Course</th>
+                        <th>Marks</th>
+                    </tr>
+                    </thead>
+                    <tbody id="table"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
 let students = [];
 
 function render(list = students) {
-    table.innerHTML="";
-    list.forEach(s=>{
-        table.innerHTML += `
+    const tbody = document.getElementById("table");
+    tbody.innerHTML = "";
+
+    list.forEach(s => {
+        tbody.innerHTML += `
             <tr>
                 <td>${s.id}</td>
                 <td>${s.name}</td>
                 <td>${s.age}</td>
                 <td>${s.course}</td>
                 <td>${s.marks}</td>
-            </tr>`;
+            </tr>
+        `;
     });
 }
 
-function addStudent(){
-    students.push({
-        id: id.value,
-        name: name.value,
-        age: age.value,
-        course: course.value,
-        marks: marks.value
-    });
+function addStudent() {
+    const id = document.getElementById("id").value.trim();
+    const name = document.getElementById("name").value.trim();
+    const age = document.getElementById("age").value.trim();
+    const course = document.getElementById("course").value.trim();
+    const marks = document.getElementById("marks").value.trim();
+
+    if (!id || !name) {
+        alert("ID and Name are required.");
+        return;
+    }
+
+    students.push({ id, name, age, course, marks });
+
+    document.getElementById("id").value = "";
+    document.getElementById("name").value = "";
+    document.getElementById("age").value = "";
+    document.getElementById("course").value = "";
+    document.getElementById("marks").value = "";
 
     render();
 }
 
-function searchStudent(){
-    let q = search.value.toLowerCase();
-    let result = students.filter(
-        s => s.name.toLowerCase() === q
-    );
-
+function searchStudent() {
+    const q = document.getElementById("search").value.trim().toLowerCase();
+    if (!q) {
+        render();
+        return;
+    }
+    const result = students.filter(s => s.name.toLowerCase() === q);
     render(result);
 }
 
-function updateStudent(){
-    let u = uid.value;
+function updateStudent() {
+    const uid = document.getElementById("uid").value.trim();
+    const newName = document.getElementById("newName").value.trim();
+    const newAge = document.getElementById("newAge").value.trim();
+    const newCourse = document.getElementById("newCourse").value.trim();
+    const newMarks = document.getElementById("newMarks").value.trim();
 
-    students.forEach(s=>{
-        if(s.id === u){
-            if(newName.value) s.name = newName.value;
-            if(newAge.value) s.age = newAge.value;
-            if(newCourse.value) s.course = newCourse.value;
-            if(newMarks.value) s.marks = newMarks.value;
+    if (!uid) {
+        alert("Enter ID to update.");
+        return;
+    }
+
+    students.forEach(s => {
+        if (s.id === uid) {
+            if (newName) s.name = newName;
+            if (newAge) s.age = newAge;
+            if (newCourse) s.course = newCourse;
+            if (newMarks) s.marks = newMarks;
         }
     });
 
     render();
 }
 
-function deleteStudent(){
-    let d = did.value;
-    students = students.filter(s => s.id !== d);
+function deleteStudent() {
+    const did = document.getElementById("did").value.trim();
+    if (!did) {
+        alert("Enter ID to delete.");
+        return;
+    }
 
+    students = students.filter(s => s.id !== did);
     render();
 }
 </script>
-
 </body>
 </html>
