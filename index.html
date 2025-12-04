@@ -246,92 +246,68 @@
 </div>
 
 <script>
-let students = [];
+const API="https://YOUR-RENDER-APP.onrender.com"
 
-function render(list = students) {
-    const tbody = document.getElementById("table");
-    tbody.innerHTML = "";
-
-    list.forEach(s => {
-        tbody.innerHTML += `
-            <tr>
-                <td>${s.id}</td>
-                <td>${s.name}</td>
-                <td>${s.age}</td>
-                <td>${s.course}</td>
-                <td>${s.marks}</td>
-            </tr>
-        `;
-    });
+async function render(list=null){
+ let data = list || await fetch(API+"/students").then(r=>r.json())
+ let tbody=document.getElementById("table")
+ tbody.innerHTML=""
+ data.forEach(s=>{
+  tbody.innerHTML+=`
+   <tr>
+    <td>${s.id}</td>
+    <td>${s.name}</td>
+    <td>${s.age}</td>
+    <td>${s.course}</td>
+    <td>${s.marks}</td>
+   </tr>`
+ })
 }
 
-function addStudent() {
-    const id = document.getElementById("id").value.trim();
-    const name = document.getElementById("name").value.trim();
-    const age = document.getElementById("age").value.trim();
-    const course = document.getElementById("course").value.trim();
-    const marks = document.getElementById("marks").value.trim();
-
-    if (!id || !name) {
-        alert("ID and Name are required.");
-        return;
-    }
-
-    students.push({ id, name, age, course, marks });
-
-    document.getElementById("id").value = "";
-    document.getElementById("name").value = "";
-    document.getElementById("age").value = "";
-    document.getElementById("course").value = "";
-    document.getElementById("marks").value = "";
-
-    render();
+async function addStudent(){
+ let obj={
+  id:id.value,
+  name:name.value,
+  age:age.value,
+  course:course.value,
+  marks:marks.value
+ }
+ await fetch(API+"/add",{
+  method:"POST",
+  headers:{'Content-Type':'application/json'},
+  body:JSON.stringify(obj)
+ })
+ render()
 }
 
-function searchStudent() {
-    const q = document.getElementById("search").value.trim().toLowerCase();
-    if (!q) {
-        render();
-        return;
-    }
-    const result = students.filter(s => s.name.toLowerCase() === q);
-    render(result);
+async function searchStudent(){
+ let q=search.value.trim()
+ if(!q)return render()
+ let data=await fetch(API+"/search/"+q).then(r=>r.json())
+ render(data)
 }
 
-function updateStudent() {
-    const uid = document.getElementById("uid").value.trim();
-    const newName = document.getElementById("newName").value.trim();
-    const newAge = document.getElementById("newAge").value.trim();
-    const newCourse = document.getElementById("newCourse").value.trim();
-    const newMarks = document.getElementById("newMarks").value.trim();
-
-    if (!uid) {
-        alert("Enter ID to update.");
-        return;
-    }
-
-    students.forEach(s => {
-        if (s.id === uid) {
-            if (newName) s.name = newName;
-            if (newAge) s.age = newAge;
-            if (newCourse) s.course = newCourse;
-            if (newMarks) s.marks = newMarks;
-        }
-    });
-
-    render();
+async function updateStudent(){
+ let obj={
+  name:newName.value,
+  age:newAge.value,
+  course:newCourse.value,
+  marks:newMarks.value
+ }
+ await fetch(API+"/update/"+uid.value,{
+  method:"PUT",
+  headers:{'Content-Type':'application/json'},
+  body:JSON.stringify(obj)
+ })
+ render()
 }
 
-function deleteStudent() {
-    const did = document.getElementById("did").value.trim();
-    if (!did) {
-        alert("Enter ID to delete.");
-        return;
-    }
-
-    students = students.filter(s => s.id !== did);
-    render();
+async function deleteStudent(){
+ await fetch(API+"/delete/"+did.value,{method:"DELETE"})
+ render()
 }
+
+render()
 </script>
 </body>
 </html>
