@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Student Management System</title>
+</head>
+<body>
+
+<h1>Student Management System</h1>
+
+<h3>Add Student</h3>
+<input id="id" placeholder="Student ID"><br>
+<input id="name" placeholder="Name"><br>
+<input id="age" placeholder="Age"><br>
+<input id="course" placeholder="Course"><br>
+<input id="marks" placeholder="Marks"><br>
+
+<button onclick="addStudent()">Add Student</button>
+
+<h3>Students List</h3>
+<ul id="list"></ul>
+
+<script>
+  const students = [];
+
+  function addStudent() {
+      const id = document.getElementById("id").value;
+      const name = document.getElementById("name").value;
+      const age = document.getElementById("age").value;
+      const course = document.getElementById("course").value;
+      const marks = document.getElementById("marks").value;
+
+      students.push({id, name, age, course, marks});
+      display();
+  }
+
+  function display() {
+      const list = document.getElementById("list");
+      list.innerHTML = "";
+
+      students.forEach(s => {
+          list.innerHTML +=
+            `<li>${s.id} | ${s.name} | ${s.age} | ${s.course} | ${s.marks}</li>`;
+      });
+  }
+</script>
+
+</body>
+</html>
